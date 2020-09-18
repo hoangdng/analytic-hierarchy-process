@@ -9,9 +9,9 @@ public class Program
         //Get input criteria and their weight matrix
         FileInputStream fisCriteria = new FileInputStream("src/criteria.txt");
         Scanner scannerCriteria = new Scanner(fisCriteria);
-        String[] criteria = scannerCriteria.nextLine().split(" ");
+        String[] criteriaName = scannerCriteria.nextLine().split(" ");
 
-        int criteriaMatrixDegree = criteria.length;
+        int criteriaMatrixDegree = criteriaName.length;
         double[][] criteriaMatrix = new double[criteriaMatrixDegree][criteriaMatrixDegree];
         for (int i = 0; i < criteriaMatrixDegree; i++)
         {
@@ -29,23 +29,25 @@ public class Program
         //Get input alternatives matrix
         int alternativesMatrixDegree = alternatives.length;
         double[][] alternativesMatrix = new double[alternativesMatrixDegree][alternativesMatrixDegree];
-        for (int i = 0; i < alternativesMatrixDegree; i++)
+
+        Criterion[] criteria = new Criterion[criteriaName.length];
+        String criterionName = "";
+
+        for (int i = 0; i < criteria.length; i++)
         {
-            scannerAlternatives.nextLine(); //to skip the name of criterion which the matrix is based on
+            criterionName = scannerAlternatives.nextLine();
+
             for (int j = 0; j < alternativesMatrixDegree; j++)
             {
-                alternativesMatrix[i][j] = Double.parseDouble(scannerAlternatives.next());
+                for (int k = 0; k < alternativesMatrixDegree; k++)
+                {
+                    alternativesMatrix[j][k] = Double.parseDouble(scannerAlternatives.next());
+                }
             }
+            scannerAlternatives.nextLine();
+            criteria[i] = new Criterion(criterionName, alternativesMatrix);
         }
 
-        for (int i = 0; i <= alternativesMatrixDegree; i++)
-        {
-            for (int j = 0; j < alternativesMatrixDegree; j++)
-            {
-                System.out.print(alternativesMatrix[i][j]);
-            }
-            System.out.println();
-        }
         //Apply Ahp to input data
         Matrix compareMatrix = new Matrix("Compare matrix", criteriaMatrix);
         double[] weightVectorOfCompareMatrix = compareMatrix.calculateWeightVector();

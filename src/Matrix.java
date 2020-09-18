@@ -5,6 +5,26 @@ public class Matrix
     private String _name;
     private double[][] _weightMatrix;
 
+    public String getName()
+    {
+        return _name;
+    }
+
+    public void setName(String name)
+    {
+        _name = name;
+    }
+
+    public double[][] getWeightMatrix()
+    {
+        return _weightMatrix;
+    }
+
+    public void setWeightMatrix(double[][] weightMatrix)
+    {
+        _weightMatrix = weightMatrix;
+    }
+
     public Matrix(String name, double[][] weightMatrix)
     {
         _name = name;
