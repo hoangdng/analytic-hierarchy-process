@@ -1,6 +1,6 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Program
 {
@@ -56,16 +56,25 @@ public class Program
         double[] weightVectorOfCompareMatrix = compareMatrix.calculateWeightVector();
         compareMatrix.printWeightVector();
 
-        double[] weightVectorOfPriceMatrix = criteria[0].getWeightMatrix().calculateWeightVector();
-        criteria[0].getWeightMatrix().printWeightVector();
-
-        double[] weightVectorOfDistanceMatrix = criteria[1].getWeightMatrix().calculateWeightVector();
+        /*criteria[0].getWeightMatrix().printWeightVector();
         criteria[1].getWeightMatrix().printWeightVector();
-
-        double[] weightVectorOfLaborMatrix = criteria[2].getWeightMatrix().calculateWeightVector();
         criteria[2].getWeightMatrix().printWeightVector();
+        criteria[3].getWeightMatrix().printWeightVector();*/
 
-        double[] weightVectorOfWageMatrix = criteria[3].getWeightMatrix().calculateWeightVector();
-        criteria[3].getWeightMatrix().printWeightVector();
+        //Calculate score of each alternative
+        double[] scores = new double[alternatives.length];
+        for (int i = 0; i < scores.length; i++)
+        {
+            for (int j = 0; j < weightVectorOfCompareMatrix.length; j++)
+            {
+                scores[i] += weightVectorOfCompareMatrix[j] * criteria[j].getWeightMatrix().calculateWeightVector()[i];
+            }
+        }
+
+        for (int i = 0; i < scores.length; i++)
+        {
+            System.out.println(alternatives[i] + ": " + Math.round(scores[i] * 100) / 100.0);
+        }
+
     }
 }
