@@ -1,7 +1,22 @@
-public class Criterion extends Matrix
+public class Criterion
 {
-    public Criterion(String name, double[][] weightMatrix)
+    private Matrix _weightMatrix;
+    private String _name;
+
+    public Criterion(String name, Matrix weightMatrix)
     {
-        super(name, weightMatrix);
+        _name = name;
+        _weightMatrix = weightMatrix;
+    }
+
+    public void printCriterionMatrix()
+    {
+        System.out.println(_name);
+        _weightMatrix.printMatrix();
+    }
+
+    public Matrix getWeightMatrix()
+    {
+        return _weightMatrix;
     }
 }

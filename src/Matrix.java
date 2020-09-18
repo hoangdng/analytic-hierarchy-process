@@ -2,45 +2,36 @@ import java.util.Arrays;
 
 public class Matrix
 {
-    private String _name;
-    private double[][] _weightMatrix;
+    private double[][] _matrix;
 
-    public String getName()
+    public Matrix(double[][] matrix)
     {
-        return _name;
+        _matrix = matrix;
     }
 
-    public void setName(String name)
+    public void printMatrix()
     {
-        _name = name;
-    }
 
-    public double[][] getWeightMatrix()
-    {
-        return _weightMatrix;
-    }
-
-    public void setWeightMatrix(double[][] weightMatrix)
-    {
-        _weightMatrix = weightMatrix;
-    }
-
-    public Matrix(String name, double[][] weightMatrix)
-    {
-        _name = name;
-        _weightMatrix = weightMatrix;
+        for (int i = 0; i < _matrix.length; i++)
+        {
+            for (int j = 0; j < _matrix[i].length; j++)
+            {
+                System.out.print(_matrix[i][j] + "  ");
+            }
+            System.out.println();
+        }
     }
 
     public double[] calculateWeightVector()
     {
         //Calculate the sum of each column in weight matrix
-        int matrixDegree = _weightMatrix.length;
+        int matrixDegree = _matrix.length;
         double[] sumCols = new double[matrixDegree];
         for (int i = 0; i < matrixDegree; i++)
         {
             for (int j = 0; j < matrixDegree; j++)
             {
-                sumCols[i] += _weightMatrix[j][i];
+                sumCols[i] += _matrix[j][i];
             }
         }
         //Divide each elements in matrix to the corresponding sum of column (normalize this matrix)
@@ -48,7 +39,7 @@ public class Matrix
         {
             for (int j = 0; j < matrixDegree; j++)
             {
-                _weightMatrix[i][j] = _weightMatrix[i][j] / sumCols[j];
+                _matrix[i][j] = _matrix[i][j] / sumCols[j];
             }
         }
         //Calculate the sum of each row in the new matrix
@@ -57,7 +48,7 @@ public class Matrix
         {
             for (int j = 0; j < matrixDegree; j++)
             {
-                sumRows[i] += _weightMatrix[i][j];
+                sumRows[i] += _matrix[i][j];
             }
         }
         //Divide sum of each row to sum of all rows
@@ -68,5 +59,17 @@ public class Matrix
             weightVector[i] = sumRows[i] / sumOfAllRows;
         }
         return weightVector;
+    }
+
+    public void printWeightVector()
+    {
+        double[] weightVector = calculateWeightVector();
+
+        System.out.println("-------------");
+        for (int i = 0; i < weightVector.length; i++)
+        {
+            System.out.println(weightVector[i]);
+        }
+        System.out.println("-------------");
     }
 }

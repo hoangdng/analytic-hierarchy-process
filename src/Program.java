@@ -28,28 +28,44 @@ public class Program
 
         //Get input alternatives matrix
         int alternativesMatrixDegree = alternatives.length;
-        double[][] alternativesMatrix = new double[alternativesMatrixDegree][alternativesMatrixDegree];
+        double[][] alternativesMatrix;
 
         Criterion[] criteria = new Criterion[criteriaName.length];
         String criterionName = "";
 
         for (int i = 0; i < criteria.length; i++)
         {
+            alternativesMatrix = new double[alternativesMatrixDegree][alternativesMatrixDegree];
             criterionName = scannerAlternatives.nextLine();
 
             for (int j = 0; j < alternativesMatrixDegree; j++)
             {
                 for (int k = 0; k < alternativesMatrixDegree; k++)
                 {
-                    alternativesMatrix[j][k] = Double.parseDouble(scannerAlternatives.next());
+                    double num = Double.parseDouble(scannerAlternatives.next());
+                    alternativesMatrix[j][k] = num;
                 }
             }
+
             scannerAlternatives.nextLine();
-            criteria[i] = new Criterion(criterionName, alternativesMatrix);
+            criteria[i] = new Criterion(criterionName, new Matrix(alternativesMatrix));
         }
 
-        //Apply Ahp to input data
-        Matrix compareMatrix = new Matrix("Compare matrix", criteriaMatrix);
+        //Calculate weight vectors
+        Matrix compareMatrix = new Matrix(criteriaMatrix);
         double[] weightVectorOfCompareMatrix = compareMatrix.calculateWeightVector();
+        compareMatrix.printWeightVector();
+
+        double[] weightVectorOfPriceMatrix = criteria[0].getWeightMatrix().calculateWeightVector();
+        criteria[0].getWeightMatrix().printWeightVector();
+
+        double[] weightVectorOfDistanceMatrix = criteria[1].getWeightMatrix().calculateWeightVector();
+        criteria[1].getWeightMatrix().printWeightVector();
+
+        double[] weightVectorOfLaborMatrix = criteria[2].getWeightMatrix().calculateWeightVector();
+        criteria[2].getWeightMatrix().printWeightVector();
+
+        double[] weightVectorOfWageMatrix = criteria[3].getWeightMatrix().calculateWeightVector();
+        criteria[3].getWeightMatrix().printWeightVector();
     }
 }
