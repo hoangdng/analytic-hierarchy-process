@@ -1,28 +1,26 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 
-public class Ahp
+public class Matrix
 {
-    private double[][] _criteriaMatrix;
-    private String[] _alternatives;
+    private String _name;
+    private double[][] _weightMatrix;
 
-    public Ahp(double[][] criteriaMatrix, String[] alternatives)
+    public Matrix(String name, double[][] weightMatrix)
     {
-        this._criteriaMatrix = criteriaMatrix;
-        this._alternatives = alternatives;
+        _name = name;
+        _weightMatrix = weightMatrix;
     }
 
-    public double[] calculateWeightVector(double[][] matrix)
+    public double[] calculateWeightVector()
     {
         //Calculate the sum of each column in weight matrix
-        int matrixDegree = matrix.length;
+        int matrixDegree = _weightMatrix.length;
         double[] sumCols = new double[matrixDegree];
         for (int i = 0; i < matrixDegree; i++)
         {
             for (int j = 0; j < matrixDegree; j++)
             {
-                sumCols[i] += matrix[j][i];
+                sumCols[i] += _weightMatrix[j][i];
             }
         }
         //Divide each elements in matrix to the corresponding sum of column (normalize this matrix)
@@ -30,7 +28,7 @@ public class Ahp
         {
             for (int j = 0; j < matrixDegree; j++)
             {
-                matrix[i][j] = matrix[i][j] / sumCols[j];
+                _weightMatrix[i][j] = _weightMatrix[i][j] / sumCols[j];
             }
         }
         //Calculate the sum of each row in the new matrix
@@ -39,7 +37,7 @@ public class Ahp
         {
             for (int j = 0; j < matrixDegree; j++)
             {
-                sumRows[i] += matrix[i][j];
+                sumRows[i] += _weightMatrix[i][j];
             }
         }
         //Divide sum of each row to sum of all rows
