@@ -11,6 +11,11 @@ public class Matrix
         _weightVector = this.calculateWeightVector();
     }
 
+    public double[][] getMatrix()
+    {
+        return _matrix;
+    }
+
     public double[] getWeightVector()
     {
         return _weightVector;
@@ -74,7 +79,6 @@ public class Matrix
     {
         double[] weightVector = calculateWeightVector();
 
-        System.out.println("-------------");
         for (int i = 0; i < weightVector.length; i++)
         {
             System.out.println(weightVector[i]);

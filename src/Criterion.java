@@ -2,6 +2,7 @@ public class Criterion
 {
     private Matrix _weightMatrix;
     private String _name;
+    private Criterion[] _criteria;
 
     public Criterion(String name, Matrix weightMatrix)
     {
