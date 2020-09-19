@@ -66,6 +66,7 @@ public class Matrix
         {
             weightVector[i] = sumRows[i] / sumOfAllRows;
         }
+
         return weightVector;
     }
 

@@ -19,4 +19,9 @@ public class Criterion
     {
         return _weightMatrix;
     }
+
+    public String getName()
+    {
+        return _name;
+    }
 }

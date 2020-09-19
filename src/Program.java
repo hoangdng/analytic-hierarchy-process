@@ -50,11 +50,26 @@ public class Program
             scannerAlternatives.nextLine();
             criteria[i] = new Criterion(criterionName, new Matrix(alternativesMatrix));
         }
+        for (int i = 0; i < criteria.length; i++)
+        {
+            if (!criteria[i].getWeightMatrix().isConsistent())
+            {
+                System.out.println("Matrix " + criteria[i].getName() + " is not acceptable!");
+            }
+        }
 
         //Calculate weight vectors
         Matrix compareMatrix = new Matrix(criteriaMatrix);
         double[] weightVectorOfCompareMatrix = compareMatrix.getWeightVector();
-        compareMatrix.printWeightVector();
+        if (!compareMatrix.isConsistent())
+        {
+            System.out.println("Compare matrix is not acceptable!");
+        }
+        else
+        {
+            System.out.println("Weight matrix of criteria: ");
+            compareMatrix.printWeightVector();
+        }
 
         /*criteria[0].getWeightMatrix().printWeightVector();
         criteria[1].getWeightMatrix().printWeightVector();
@@ -73,10 +88,9 @@ public class Program
 
         for (int i = 0; i < scores.length; i++)
         {
+            System.out.println("Final score: ");
             System.out.println(alternatives[i] + ": " + Math.round(scores[i] * 100) / 100.0);
         }
 
-        Matrix a = new Matrix(new double[][]{{1, 0.5, 3}, {2, 1, 4}, {0.33, 0.25, 1}});
-        a.isConsistent();
     }
 }
