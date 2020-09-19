@@ -53,7 +53,7 @@ public class Program
 
         //Calculate weight vectors
         Matrix compareMatrix = new Matrix(criteriaMatrix);
-        double[] weightVectorOfCompareMatrix = compareMatrix.calculateWeightVector();
+        double[] weightVectorOfCompareMatrix = compareMatrix.getWeightVector();
         compareMatrix.printWeightVector();
 
         /*criteria[0].getWeightMatrix().printWeightVector();
@@ -67,7 +67,7 @@ public class Program
         {
             for (int j = 0; j < weightVectorOfCompareMatrix.length; j++)
             {
-                scores[i] += weightVectorOfCompareMatrix[j] * criteria[j].getWeightMatrix().calculateWeightVector()[i];
+                scores[i] += weightVectorOfCompareMatrix[j] * criteria[j].getWeightMatrix().getWeightVector()[i];
             }
         }
 
@@ -76,5 +76,7 @@ public class Program
             System.out.println(alternatives[i] + ": " + Math.round(scores[i] * 100) / 100.0);
         }
 
+        Matrix a = new Matrix(new double[][]{{1, 0.5, 3}, {2, 1, 4}, {0.33, 0.25, 1}});
+        a.isConsistent();
     }
 }
