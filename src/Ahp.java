@@ -74,34 +74,44 @@ public class Ahp
             }
 
             scanner.nextLine();
-            _criteria[i] = new Criterion(criterionName, new Matrix(alternativesMatrix));
+            _criteria[i] = new Criterion(criterionName, new Matrix(alternativesMatrix), null);
         }
         for (int i = 0; i < _criteria.length; i++)
         {
             if (!_criteria[i].getWeightMatrix().isConsistent())
             {
-                System.out.println("Matrix " + _criteria[i].getName() + " is not acceptable!");
+                System.out.println("Matrix " + _criteria[i].getName() + " is not appropriate! The consistency index (CI) is higher than 0.1");
             }
         }
     }
 
     public void runAhp()
     {
-        //Calculate weight vectors
+        //Calculate weight vectors of all the input matrices
         double[] weightVectorOfCompareMatrix = _citeriaCompareMatrix.getWeightVector();
         System.out.println("Weight vector of compare matrix: ");
+        for (String name : _criteriaName)
+        {
+            System.out.print(name + " ");
+        }
+        System.out.println();
         _citeriaCompareMatrix.printWeightVector();
 
         double[][] weightVectorOfCriteria = new double[_criteria.length][_alternatives.length];
-
         for (int i = 0; i < weightVectorOfCriteria.length; i++)
         {
-            weightVectorOfCriteria[i] = _criteria[i].getWeightMatrix().getWeightVector();
+            weightVectorOfCriteria[i] = _criteria[i].getWeightVector();
         }
+
         System.out.println("Weight vector of criteria: ");
         for (int i = 0; i < _criteria.length; i++)
         {
-            System.out.println(_criteriaName[i] + ":");
+            System.out.print(_criteriaName[i] + ": ");
+            for (String alternative : _alternatives)
+            {
+                System.out.print(alternative + " ");
+            }
+            System.out.println();
             _criteria[i].getWeightMatrix().printWeightVector();
         }
 
@@ -115,6 +125,7 @@ public class Ahp
             }
         }
 
+        //Print out the result of the analytic process
         System.out.println("Final score: ");
         for (int i = 0; i < scores.length; i++)
         {

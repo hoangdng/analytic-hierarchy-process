@@ -1,13 +1,16 @@
 public class Criterion
 {
-    private Matrix _weightMatrix;
     private String _name;
-    private Criterion[] _criteria;
+    private Matrix _weightMatrix;
+    private double[] _weightVector;
+    private Criterion[] _subCriteria;
 
-    public Criterion(String name, Matrix weightMatrix)
+    public Criterion(String name, Matrix weightMatrix, Criterion[] subCriteria)
     {
         _name = name;
         _weightMatrix = weightMatrix;
+        _subCriteria = subCriteria;
+        _weightVector = _weightMatrix.calculateWeightVector();
     }
 
     public void printCriterionMatrix()
@@ -24,5 +27,15 @@ public class Criterion
     public String getName()
     {
         return _name;
+    }
+
+    public double[] getWeightVector()
+    {
+        return _weightVector;
+    }
+
+    public Criterion[] getSubCriteria()
+    {
+        return _subCriteria;
     }
 }
