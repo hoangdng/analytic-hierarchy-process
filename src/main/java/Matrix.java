@@ -11,11 +11,6 @@ public class Matrix
         _weightVector = this.calculateWeightVector();
     }
 
-    public double[][] getMatrix()
-    {
-        return _matrix;
-    }
-
     public double[] getWeightVector()
     {
         return _weightVector;
