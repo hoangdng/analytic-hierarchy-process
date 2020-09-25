@@ -1,0 +1,28 @@
+{
+  "name": "Decide the new location for Jilley Bean company",
+  "alternatives": ["A", "B", "C"],
+  "preferenceMatrix": [0.2, 9, 2],
+  "criteria": [
+    {
+      "name": "price",
+      "preferenceMatrix": [3, 0.2],
+      "subCriteria": [
+      ]
+    },
+    {
+      "name": "distance",
+      "preferenceMatrix": [6, 0.11],
+      "subCriteria": []
+    },
+    {
+      "name": "labor",
+      "preferenceMatrix": [0.33, 7],
+      "subCriteria": []
+    },
+    {
+      "name": "wage",
+      "preferenceMatrix": [0.33, 4],
+      "subCriteria": []
+    }
+  ]
+}

@@ -18,7 +18,16 @@ public class Ahp
 
     public Ahp()
     {
-        readDataFromInputFileAdvance();
+        //readDataFromInputFile();
+        //readDataFromInputFileAdvance();
+        readDataFromInputFileAdvance2();
+        _criteriaPreferenceMatrix.printMatrix();
+        for (Criterion c : _criteria)
+        {
+            c.getPreferenceMatrix().printMatrix();
+        }
+
+
     }
 
     //For original Ahp method
@@ -35,7 +44,7 @@ public class Ahp
         return targetArray;
     }
 
-    //For advanced Ahp method
+    //For advanced Ahp method 1
     public static double[][] parseMatrixFromJsonArrayAdvance(JSONArray jsonArray)
     {
         double[][] targetArray = new double[jsonArray.size()][jsonArray.size()];
@@ -78,6 +87,55 @@ public class Ahp
             }
         }
 
+        return targetArray;
+    }
+
+    //For advanced Ahp method 2
+    public static double[][] parseMatrixFromJsonArrayAdvance2(JSONArray jsonArray)
+    {
+        double[][] targetArray = new double[jsonArray.size() + 1][jsonArray.size() + 1];
+
+        //Parse the array to the diag above main diag of matrix m
+        for (int i = 0; i < jsonArray.size(); i++)
+        {
+            targetArray[i][i + 1] = Double.parseDouble(jsonArray.get(i).toString());
+        }
+
+        //a[i][j] = 1 (if i == j)
+        for (int i = 0; i < targetArray.length; i++)
+        {
+            for (int j = 0; j < targetArray.length; j++)
+            {
+                if (i == j)
+                {
+                    targetArray[i][j] = 1;
+                }
+            }
+        }
+
+
+        //a[i][j] = a[i][j-1] * a[j-1][j] (i < j-1)
+        for (int i = 0; i < targetArray.length; i++)
+        {
+            for (int j = i + 2; j < targetArray.length; j++)
+            {
+                targetArray[i][j] = targetArray[i][j - 1] * targetArray[j - 1][j];
+                targetArray[i][j] = Math.round(targetArray[i][j] * 100) / 100.0;
+            }
+        }
+
+        //a[i][j] = 1 / a[j][i]
+        for (int i = 0; i < targetArray.length; i++)
+        {
+            for (int j = 0; j < targetArray.length; j++)
+            {
+                if (targetArray[i][j] == 0)
+                {
+                    targetArray[i][j] = 1 / targetArray[j][i];
+                    targetArray[i][j] = Math.round(targetArray[i][j] * 100) / 100.0;
+                }
+            }
+        }
         return targetArray;
     }
 
@@ -167,6 +225,60 @@ public class Ahp
                 this._criteria[i].setName(((JSONObject) tempArray.get(i)).get("name").toString());
 
                 Matrix matrix = new Matrix(Ahp.parseMatrixFromJsonArrayAdvance((JSONArray) (((JSONObject) tempArray.get(i)).get("preferenceMatrix"))));
+                this._criteria[i].setPreferenceMatrix(matrix);
+            }
+
+            //Check matrix's consistency
+            if (!this._criteriaPreferenceMatrix.isConsistent())
+            {
+                System.out.println("Please check the preference matrix of criteria (CI must less than 0.1)");
+            }
+            for (int i = 0; i < this._criteria.length; i++)
+            {
+                if (!this._criteria[i].getPreferenceMatrix().isConsistent())
+                {
+                    System.out.println("Please check the preference matrix of alternative with " + this._criteria[i].getName() + " (CI must less than 0.1)");
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void readDataFromInputFileAdvance2()
+    {
+        JSONParser jsonParser = new JSONParser();
+        try
+        {
+            FileReader reader = new FileReader("src/main/java/inputadvance2.json");
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+
+            //Read project name
+            this._projectName = (String) jsonObject.get("name");
+
+            //Read alternatives
+            JSONArray tempArray = (JSONArray) jsonObject.get("alternatives");
+            this._alternatives = new String[tempArray.size()];
+            for (int i = 0; i < tempArray.size(); i++)
+            {
+                this._alternatives[i] = tempArray.get(i).toString();
+            }
+
+            //Read criteria preference matrix
+            tempArray = (JSONArray) jsonObject.get("preferenceMatrix");
+            this._criteriaPreferenceMatrix = new Matrix(Ahp.parseMatrixFromJsonArrayAdvance2(tempArray));
+
+            //Read detail of each criterion
+            tempArray = (JSONArray) jsonObject.get("criteria");
+            this._criteria = new Criterion[tempArray.size()];
+            for (int i = 0; i < tempArray.size(); i++)
+            {
+                this._criteria[i] = new Criterion();
+                this._criteria[i].setName(((JSONObject) tempArray.get(i)).get("name").toString());
+
+                Matrix matrix = new Matrix(Ahp.parseMatrixFromJsonArrayAdvance2((JSONArray) (((JSONObject) tempArray.get(i)).get("preferenceMatrix"))));
                 this._criteria[i].setPreferenceMatrix(matrix);
             }
 
