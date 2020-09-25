@@ -1,12 +1,8 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.*;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Scanner;
 
 public class Ahp
 {
@@ -21,13 +17,6 @@ public class Ahp
         //readDataFromInputFile();
         //readDataFromInputFileAdvance();
         readDataFromInputFileAdvance2();
-        _criteriaPreferenceMatrix.printMatrix();
-        for (Criterion c : _criteria)
-        {
-            c.getPreferenceMatrix().printMatrix();
-        }
-
-
     }
 
     //For original Ahp method
