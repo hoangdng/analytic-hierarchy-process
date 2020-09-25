@@ -15,7 +15,35 @@
         [0.33, 1, 0.2],
         [0.5, 5, 1]
       ],
-      "subCriteria": []
+      "subCriteria": [
+        {
+          "name": "price111",
+          "preferenceMatrix": [
+            [1, 3, 2],
+            [0.33, 1, 0.2],
+            [0.5, 5, 1]
+          ],
+          "subCriteria": []
+        },
+        {
+          "name": "price222",
+          "preferenceMatrix": [
+            [1, 3, 2],
+            [0.33, 1, 0.2],
+            [0.5, 5, 1]
+          ],
+          "subCriteria": []
+        },
+        {
+          "name": "price333",
+          "preferenceMatrix": [
+            [1, 3, 2],
+            [0.33, 1, 0.2],
+            [0.5, 5, 1]
+          ],
+          "subCriteria": []
+        }
+      ]
     },
     {
       "name": "distance",
